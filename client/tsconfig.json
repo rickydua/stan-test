@@ -2,7 +2,7 @@
   "compilerOptions": {
     /* Basic Options */
     "target": "ESNext", // Specify ECMAScript target version
-    "module": "CommonJS", // Specify module code generation
+    "module": "ES2015", // Specify module code generation
     "allowJs": true, // Allow JavaScript files to be compiled
     "checkJs": true, // Report errors in .js files
     "declaration": true, // Generates corresponding '.d.ts' file
@@ -19,7 +19,7 @@
     "noFallthroughCasesInSwitch": true, // Report errors for fallthrough cases in switch statement
 
     /* Module Resolution Options */
-    "moduleResolution": "Node", // Choose the module resolution strategy
+    "moduleResolution": "Bundler", // Choose the module resolution strategy
     "paths": {
       // A series of entries which re-map imports to lookup locations relative to the 'baseUrl'
       "*": ["../node_modules/*"]

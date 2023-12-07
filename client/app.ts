@@ -1,7 +1,6 @@
-import { reset } from "./functions";
+import { reset, createSha1FromBlob, changeHeader } from "./functions";
 const ws = new WebSocket("ws://localhost:8081");
 
-const root = document.getElementById("root");
 const container = document.getElementsByClassName("root-container")[0];
 const logo = document.getElementsByClassName("logo")[0];
 const imageContainer = document.getElementById("images-container");
@@ -12,20 +11,9 @@ const objectStorage: Record<string, HTMLImageElement> = {};
 let headerChanged = false;
 let hashState = false;
 
-async function createSha1FromBlob(blob: Blob) {
-  if (!hashState) return "";
-  const result = await crypto.subtle.digest("SHA-1", await blob.arrayBuffer());
-  const base64String = btoa(String.fromCharCode(...new Uint8Array(result)));
-  return base64String;
-}
-
-function changeHeaderAndConfigureButton() {
-  if (container && container instanceof HTMLElement && button) {
-    container.style.justifyContent = "flex-start";
-    container.style.alignItems = "center";
-    container.style.height = "auto";
-    container.style.marginBottom = "1.5em";
-
+// Cannot really move this to functions.ts as it's coupled with hashState global state
+function configureButton() {
+  if (button && button instanceof HTMLElement) {
     button.style.display = "inline-block";
     button.addEventListener("click", () => {
       hashState = !hashState;
@@ -37,12 +25,6 @@ function changeHeaderAndConfigureButton() {
       }
     });
   }
-
-  if (logo && logo instanceof HTMLElement) {
-    logo.style.width = "6%";
-  }
-
-  headerChanged = true;
 }
 
 ws.addEventListener("message", (event) => {
@@ -62,7 +44,12 @@ ws.addEventListener("message", (event) => {
       blob = blobLocal;
     })
     .then(() => {
-      if (!headerChanged) changeHeaderAndConfigureButton();
+      if (!headerChanged) {
+        changeHeader(container, button, logo);
+        configureButton();
+
+        headerChanged = true;
+      }
     })
     .then(async () => {
       if (!objectStorage[id.toString()]) {
@@ -70,7 +57,7 @@ ws.addEventListener("message", (event) => {
         objectStorage[id.toString()] = img;
       }
 
-      const hash = await createSha1FromBlob(blob);
+      const hash = await createSha1FromBlob(blob, hashState);
       if (!hash.length) {
         messageToSever.hash = null;
       } else {

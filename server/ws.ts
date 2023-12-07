@@ -21,7 +21,7 @@ export const getHanshakeHeaders = (secWebKey: string) =>
     "\r\n",
   ].join("");
 
-export function encode(data: any) {
+export function encode(data: any): Buffer {
   let dataBuff = Buffer.alloc(0);
   if (typeof data === "string") {
     dataBuff = Buffer.from(data);
@@ -33,6 +33,10 @@ export function encode(data: any) {
 
   if (typeof data === "number") {
     dataBuff = Buffer.from(data.toString());
+  }
+
+  if (data instanceof Buffer) {
+    dataBuff = data;
   }
 
   const length = dataBuff?.length || 0;
@@ -73,11 +77,11 @@ export function decode(packet: Buffer) {
 
   const maskingKey = packet.subarray(
     maskOffset,
-    maskOffset + MASKING_KEY_LENGTH
+    maskOffset + MASKING_KEY_LENGTH,
   );
   const payload = packet.subarray(
     payloadOffset,
-    payloadOffset + parseInt(payloadLength?.toString() || "")
+    payloadOffset + parseInt(payloadLength?.toString() || ""),
   );
 
   // inplace mutation of the payload

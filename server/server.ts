@@ -54,9 +54,9 @@ server.on("upgrade", async (request: any, socket: Socket) => {
         return sha;
       });
 
-    // when hash is null it will print red as they do not match, as soon hash is on the frontend
+    // when hash is null it will print red as they do not match, as soon hash is ON the frontend
     // when is turned on it will print green, I decided to keep this as it will demo
-    // both cases red and green, I could've easily added a check to only print on non null value of hash from client
+    // both cases red and green, I could've added a check to only print on non null value of hash from client
     if (parsedObj.hash !== result) {
       // Print in red
       console.log("\x1b[31m%s\x1b[0m", {
@@ -77,7 +77,7 @@ server.on("upgrade", async (request: any, socket: Socket) => {
   // once connection is established, start sending data
   while (true) {
     for (const item of movies) {
-      await sleep(2000);
+      await sleep(15000);
       socket.write(encode({ id: item.id, image: item.image }));
     }
   }
