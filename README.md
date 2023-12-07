@@ -1,19 +1,19 @@
 ## Stan Server and Client over WS (bare metal)
 
 ```bash
-# To get started, please clone this repo and pleas install nvm if not on system already :)
+# To get started, please clone this repo and please install nvm if not on system already :)
 nvm use
 
 # Install deps
 npm ci
 
-# lets run a check before we even start, this run formatiing, runs type checking and tests
+# lets run a check before we even start, this runs formatting, runs type checking and tests
 npm run full-check
 
 # previous command should be green, this will this will create the bundle we need to get started
 npm run createBundle
 
-# now lets start client and server
+# now lets start the server
 npm run start-server
 
 # in a new tab, please run the client
