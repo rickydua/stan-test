@@ -20,7 +20,7 @@ npm run start-server
 npm run start-client
 
 # The ports should display on standard out, please go to the browser http://localhost:8080 for client
-# This should automatically connect to server over WS and should start receiving the movie posters
+# This should automatically connect to server over WS and should start receiving the movie posters every 15 seconds
 
 # If you press CTRL-C on your server tab
 # The WS would disconnect and the client frontend should revert back to logo in the middle
