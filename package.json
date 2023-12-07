@@ -18,7 +18,7 @@
     "createBundle": "npm run babel-server && npm run babel-client && npm run rollup-server && npm run rollup-client",
     "prettier-check": "prettier -c server/ client/",
     "full-check": "npm run prettier-check && npm run tsc-verify-server && npm run tsc-verify-client && npm run test",
-    "start-client": "cp ./client/index.html ./client/logo.svg ./dist/client/app.js ./clientServer/ && cd ./clientServer && http-server -p 8080",
+    "start-client": "mkdir -p clientServer; cp ./client/index.html ./client/logo.svg ./dist/client/app.js ./clientServer/ && cd ./clientServer && http-server -p 8080",
     "start-server": "node ./dist/server/server.js"
   },
   "type": "module",

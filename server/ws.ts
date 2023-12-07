@@ -55,13 +55,13 @@ function determinePayloadLength(length: number) {
   if (length >= PAYLOAD_LENGTH_126 && length <= 0xffff) {
     let lengthBuffer = Buffer.alloc(2);
     lengthBuffer.writeUInt16BE(length);
-    return Buffer.from([126, ...lengthBuffer]);
+    return Buffer.from([0x7e, ...lengthBuffer]);
   }
 
   if (length <= PAYLOAD_LENGTH_127) {
     const lengthBuffer = Buffer.alloc(8);
     lengthBuffer.writeBigUint64BE(BigInt(length));
-    return Buffer.from([127, ...lengthBuffer]);
+    return Buffer.from([0x7f, ...lengthBuffer]);
   }
 
   return Buffer.from([]);
@@ -99,7 +99,7 @@ export function decode(packet: Buffer) {
 
 // Get different offsets in the buffer for various payload lengths
 function getBufferParameters(packet: Buffer): BufferPacketParameters {
-  const payloadLength = packet[1] & 0x7f;
+  const payloadLength = packet[1] & 0x7f; // removing the mask with this bitwise operation
 
   if (payloadLength <= PAYLOAD_LENGTH_125) {
     return { payloadLength: payloadLength, payloadOffset: 6, maskOffset: 2 };
