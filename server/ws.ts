@@ -55,13 +55,13 @@ function determinePayloadLength(length: number) {
   if (length >= PAYLOAD_LENGTH_126 && length <= 0xffff) {
     let lengthBuffer = Buffer.alloc(2);
     lengthBuffer.writeUInt16BE(length);
-    return Buffer.from([0x7e, ...lengthBuffer]);
+    return Buffer.from([PAYLOAD_LENGTH_126, ...lengthBuffer]);
   }
 
   if (length <= PAYLOAD_LENGTH_127) {
     const lengthBuffer = Buffer.alloc(8);
     lengthBuffer.writeBigUint64BE(BigInt(length));
-    return Buffer.from([0x7f, ...lengthBuffer]);
+    return Buffer.from([PAYLOAD_LENGTH_127, ...lengthBuffer]);
   }
 
   return Buffer.from([]);
